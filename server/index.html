@@ -1,0 +1,71 @@
+<!-- REPLACED index.html with index.pug -->
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <!-- Uncomment the line below on step 10! -->
+  <!-- <link rel="stylesheet" type="text/css" href="./style.css"> -->
+</head>
+
+<body>
+  Display only this page
+  <button id='hiButton'>Say hi!</button>
+  <button id='helloButton'>Greet the server with hello!</button>
+  <button id='whatsUpButton'>Greet the server with what's up!</button>
+  <button id='updateButton'>Update message</button>
+  <button id='deleteButton'>Delete message</button>
+  <button id='pokemonButton'>Pokemon</button>
+  <p id='abilities'></p>
+</body>
+
+<script>
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function (req, res) {
+    if (xmlHttp.readyState === 4) {
+      console.log(xmlHttp.responseText);
+    }
+  }
+
+  hiButton.onclick = function () {
+    xmlHttp.open('POST', '/sayHi', true);
+    xmlHttp.setRequestHeader('Content-type', 'text');
+    xmlHttp.send('hi');
+  }
+
+  helloButton.onclick = function () {
+    xmlHttp.open('POST', '/greeting', true);
+    xmlHttp.setRequestHeader('Content-type', 'text');
+    xmlHttp.send('hello'); 
+  }
+
+  whatsUpButton.onclick = function () {
+    xmlHttp.open('POST', '/greeting', true);
+    xmlHttp.setRequestHeader('Content-type', 'text');
+    xmlHttp.send('what\'s up'); 
+  }
+
+  updateButton.onclick = function () {
+    xmlHttp.open('PUT', '/updated', true);
+    xmlHttp.setRequestHeader('Content-type', 'text');
+    xmlHttp.send('updated message'); 
+  }
+
+  deleteButton.onclick = function () {
+    xmlHttp.open('DELETE', '/delete', true);
+    xmlHttp.setRequestHeader('Content-type', 'text');
+    xmlHttp.send()
+  }
+
+  pokemonButton.onclick = function () {
+    fetch('/pokemon').then(response => response.json()).then(abilities => {
+      const pokemonAbilities = abilities.map(pokemon => pokemon.ability.name).join(', ')
+      console.log(pokemonAbilities)
+      document.getElementById('abilities').textContent = pokemonAbilities
+    })
+  }
+
+</script>
+
+</html>
